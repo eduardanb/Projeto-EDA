@@ -4,7 +4,6 @@ import models.Estudante;
 import java.util.Arrays;
 import java.util.function.BiFunction;
 
-
 import busca.BuscaBinaria;
 import busca.BuscaLinear;
 
@@ -18,7 +17,7 @@ public class AnalisadorPerformance {
     // =====================================================================
 
     public long medirTempoBusca(Estudante[] array, Estudante chave,
-                                BiFunction<Estudante[], Estudante, Integer> algoritmo) {
+            BiFunction<Estudante[], Estudante, Integer> algoritmo) {
 
         long tempoTotal = 0;
 
@@ -54,20 +53,9 @@ public class AnalisadorPerformance {
         long tempoBinariaIterativa = medirTempoBusca(array, chave, BuscaBinaria::buscarIterativa);
         System.out.printf("| %-25s | %18d |\n", "Busca Binária Iterativa (O(log N))", tempoBinariaIterativa);
 
-        // 3. Busca Linear Recursiva (Protegida contra StackOverflow para N grande)
-        long tempoLinearRecursiva = -1; // Valor padrão para N muito grande
-        String tempoFormatado;
-
-        // Se o array for menor ou igual a 5000, é seguro rodar a recursão
-        if (tamanhoArray <= 5000) {
-            tempoLinearRecursiva = medirTempoBusca(array, chave, BuscaLinear::buscarRecursiva);
-            tempoFormatado = String.format("%18d", tempoLinearRecursiva);
-        } else {
-            // Se N for muito grande, o Java não suporta essa profundidade de recursão.
-            tempoFormatado = String.format("%18s", "(STACK LIMIT)");
-        }
-
-        System.out.printf("| %-25s | %s |\n", "Busca Linear Recursiva (O(N))     ", tempoFormatado);
+        // 3. Busca Linear Recursiva com Divide and Conquer (O(log N) profundidade)
+        long tempoLinearRecursiva = medirTempoBusca(array, chave, BuscaLinear::buscarRecursiva);
+        System.out.printf("| %-25s | %18d |\n", "Busca Linear Recursiva (O(N))     ", tempoLinearRecursiva);
 
         long tempoBinariaRecursiva = medirTempoBusca(array, chave, BuscaBinaria::buscarRecursiva);
         System.out.printf("| %-25s | %18d |\n", "Busca Binária Recursiva (O(log N))", tempoBinariaRecursiva);
