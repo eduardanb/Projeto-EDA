@@ -14,12 +14,12 @@ public class BuscaLinear {
         return -1;
     }
 
-    // Busca Linear Recursiva (Método Wrapper)
+    // Busca Linear Recursiva (Wrapper)
     public static int buscarRecursiva(Estudante[] array, Estudante chave) {
         return buscarRecursiva(array, chave, 0);
     }
 
-    // Busca Linear Recursiva (Método Core)
+    // Busca Linear Recursiva (Core)
     private static int buscarRecursiva(Estudante[] array, Estudante chave, int indice) {
         if (indice >= array.length) {
             return -1;
@@ -39,10 +39,9 @@ public class BuscaLinear {
             if (array[esquerda].compareTo(chave) == 0) {
                 return esquerda;
             }
-            if (array[direita].compareTo(chave) == 0) {
+            if (esquerda != direita && array[direita].compareTo(chave) == 0) {
                 return direita;
             }
-
             esquerda++;
             direita--;
         }

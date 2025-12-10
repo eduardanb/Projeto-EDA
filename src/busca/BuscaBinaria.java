@@ -24,12 +24,12 @@ public class BuscaBinaria {
         return -1;
     }
 
-    // Busca Binária Recursiva (Método Wrapper)
+    // Busca Binária Recursiva (Wrapper)
     public static int buscarRecursiva(Estudante[] array, Estudante chave) {
         return buscarRecursiva(array, chave, 0, array.length - 1);
     }
 
-    // Busca Binária Recursiva (Método Core)
+    // Busca Binária Recursiva (Core)
     private static int buscarRecursiva(Estudante[] array, Estudante chave, int esquerda, int direita) {
         if (esquerda > direita) {
             return -1;
