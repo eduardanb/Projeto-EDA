@@ -14,20 +14,34 @@ public class BuscaLinear {
         return -1;
     }
 
-    // Busca Linear Recursiva (Método Wrapper)
+    // Busca Linear Recursiva com Divide and Conquer (O(log N) profundidade)
     public static int buscarRecursiva(Estudante[] array, Estudante chave) {
-        return buscarRecursiva(array, chave, 0);
+        return buscarRecursivaDivideConquer(array, chave, 0, array.length - 1);
     }
 
-    // Busca Linear Recursiva (Método Core)
-    private static int buscarRecursiva(Estudante[] array, Estudante chave, int indice) {
-        if (indice >= array.length) {
+    // Busca Linear Recursiva - Divide and Conquer
+    // Reduz profundidade de O(N) para O(log N), evitando Stack Overflow
+    private static int buscarRecursivaDivideConquer(Estudante[] array, Estudante chave,
+            int esquerda, int direita) {
+        if (esquerda > direita) {
             return -1;
         }
-        if (array[indice].compareTo(chave) == 0) {
-            return indice;
+
+        int meio = (esquerda + direita) / 2;
+
+        // Verifica o elemento do meio
+        if (array[meio].compareTo(chave) == 0) {
+            return meio;
         }
-        return buscarRecursiva(array, chave, indice + 1);
+
+        // Busca na metade esquerda
+        int resultadoEsquerda = buscarRecursivaDivideConquer(array, chave, esquerda, meio - 1);
+        if (resultadoEsquerda != -1) {
+            return resultadoEsquerda;
+        }
+
+        // Busca na metade direita
+        return buscarRecursivaDivideConquer(array, chave, meio + 1, direita);
     }
 
     // Busca Linear Iterativa Duas Pontas
@@ -39,10 +53,9 @@ public class BuscaLinear {
             if (array[esquerda].compareTo(chave) == 0) {
                 return esquerda;
             }
-            if (array[direita].compareTo(chave) == 0) {
+            if (esquerda != direita && array[direita].compareTo(chave) == 0) {
                 return direita;
             }
-
             esquerda++;
             direita--;
         }
