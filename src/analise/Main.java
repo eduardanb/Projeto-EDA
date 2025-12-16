@@ -330,18 +330,23 @@ public class Main {
 
         testarUmaVersaoQuickSort("Slide", array, () -> {
             int[] copia = array.clone();
+            QuickSort.quickSortSlide(copia, 0, copia.length - 1);
         });
 
         testarUmaVersaoQuickSort("Slide+Shuffle", array, () -> {
+            int[] copia = array.clone();
             QuickSort.quickSortShuffle(copia, 0, copia.length - 1);
         });
 
+        testarUmaVersaoQuickSort("Java Arrays.sort", array, () -> {
             int[] copia = array.clone();
             Arrays.sort(copia);
         });
+    }
 
     private static void testarUmaVersaoQuickSort(String nome, int[] array, Runnable algoritmo) {
         for (int i = 0; i < 5; i++) {
+            int[] copiaWarmup = array.clone();
             algoritmo.run();
         }
 

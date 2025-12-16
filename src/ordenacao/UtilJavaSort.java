@@ -20,6 +20,7 @@ public class UtilJavaSort implements AlgoritmoOrdenacao {
         Arrays.sort(array);
     }
 
+    public static void ordenarEstudantes(Estudante[] array) {
         Arrays.sort(array);
     }
 
