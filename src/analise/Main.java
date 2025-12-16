@@ -6,7 +6,6 @@ import busca.BuscaLinear;
 import ordenacao.*;
 import java.util.Arrays;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Main {
 
@@ -105,47 +104,10 @@ public class Main {
         System.out.println("\n========================================");
         System.out.println("CHAVE EXISTENTE (Buscar: " + chaveExistente + ")");
         executarTestesBusca(alunos, chaveExistente);
-        Scanner scanner = new Scanner(System.in);
-        AnalisadorPerformance analisador = new AnalisadorPerformance();
 
-        int opcao = -1;
-
-        while (opcao != 0) {
-            exibirMenu();
-
-            if (scanner.hasNextInt()) {
-                opcao = scanner.nextInt();
-                scanner.nextLine();
-
-                switch (opcao) {
-                    case 1:
-                        rodarTestesOrdenacao(analisador);
-                        break;
-                    case 2:
-                        rodarTestesBusca(analisador);
-                        break;
-                    case 0:
-                        System.out.println("\nSaindo do programa. Até mais!");
-                        break;
-                    default:
-                        System.out.println("\nOpção inválida. Digite 1, 2 ou 0 para sair.");
-                }
-            } else {
-                System.out.println("\nEntrada inválida. Digite um número.");
-                scanner.nextLine();
-            }
-        }
-        scanner.close();
-    }
-
-    private static void exibirMenu() {
         System.out.println("\n========================================");
-        System.out.println("  MENU DE ANÁLISE DE ALGORITMOS (EDA)  ");
-        System.out.println("========================================");
-        System.out.println("1 - Rodar Testes de ORDENAÇÃO (Pendente)");
-        System.out.println("2 - Rodar Testes de BUSCA (Performance)");
-        System.out.println("0 - Sair");
-        System.out.print("Escolha a opção: ");
+        System.out.println("CHAVE INEXISTENTE (Buscar: " + chaveInexistente + ")");
+        executarTestesBusca(alunos, chaveInexistente);
     }
 
     private static void testePerformance() {
@@ -233,6 +195,7 @@ public class Main {
     }
 
     private static void testarAlgoritmoOrdenacao(String nome, int[] arrayOriginal, Runnable algoritmo) {
+        // Warm-up (5 execuções)
         for (int i = 0; i < 5; i++) {
             int[] copiaWarmup = arrayOriginal.clone();
             algoritmo.run();
@@ -288,7 +251,6 @@ public class Main {
     }
 
     private static void testarAlgoritmoBusca(String nomeAlgoritmo, Estudante[] array, Estudante chave) {
-        // Warm-up
         for (int i = 0; i < 5; i++) {
             switch (nomeAlgoritmo) {
                 case "Busca Linear Iterativa": BuscaLinear.buscarIterativa(array, chave); break;
@@ -298,7 +260,6 @@ public class Main {
                 case "Busca Binária Recursiva": BuscaBinaria.buscarRecursiva(array, chave); break;
             }
         }
-
 
         long[] tempos = new long[20];
 
@@ -388,6 +349,7 @@ public class Main {
             algoritmo.run();
         }
 
+
         int[] copiaTeste = array.clone();
         long inicio = System.nanoTime();
         algoritmo.run();
@@ -413,14 +375,14 @@ public class Main {
 
         System.out.println("Testando InsertionSort (20k elementos):");
 
-        // Vetor ordenado
+
         int[] copiaOrdenada = ordenado.clone();
         long inicio1 = System.nanoTime();
         InsertionSort.insertionSort(copiaOrdenada);
         long fim1 = System.nanoTime();
         double tempoOrdenado = (fim1 - inicio1) / 1_000_000.0;
 
-        // Vetor desordenado
+
         int[] copiaDesordenada = desordenado.clone();
         long inicio2 = System.nanoTime();
         InsertionSort.insertionSort(copiaDesordenada);
@@ -450,14 +412,21 @@ public class Main {
 
         indice = BuscaBinaria.buscarRecursiva(array, chave);
         exibirResultado("Binária Recursiva", indice, array, chave);
-    private static void rodarTestesOrdenacao(AnalisadorPerformance analisador) {
-        System.out.println("\n[AGUARDANDO IMPLEMENTAÇÃO] A lógica de teste de Ordenação será ativada quando os algoritmos de Sort estiverem prontos no pacote 'ordenacao'.");
     }
 
-    private static void rodarTestesBusca(AnalisadorPerformance analisador) {
-        // Tamanhos de vetor para testar a diferença de complexidade O(N) vs O(log N)
-        int[] tamanhos = { 5000, 100000, 1000000 };
-        String[] cenarios = { "melhor", "pior", "inexistente" };
+    private static Estudante[] criarEstudantes() {
+        return new Estudante[]{
+                new Estudante(101, "Ana", 8.5),
+                new Estudante(102, "Bruno", 7.0),
+                new Estudante(103, "Carla", 9.0),
+                new Estudante(104, "David", 7.0),
+                new Estudante(105, "Erica", 8.5),
+                new Estudante(106, "Felipe", 10.0),
+                new Estudante(107, "Gabriela", 9.0),
+                new Estudante(108, "Hugo", 5.5),
+                new Estudante(109, "Igor", 7.0)
+        };
+    }
 
     private static Estudante[] gerarEstudantesAleatorios(int quantidade) {
         Random random = new Random();
@@ -481,12 +450,10 @@ public class Main {
             System.out.println("-> " + algoritmo + ": NÃO encontrado. (Esperado para chave: " + chave.getNome() + ")");
         }
     }
-        System.out.println("\n*** ANÁLISE DE BUSCA (Performance) ***");
 
-        for (int tamanho : tamanhos) {
-            for (String cenario : cenarios) {
-                analisador.rodarAnaliseBusca(tamanho, cenario);
-            }
+    private static void imprimirArray(Estudante[] array) {
+        for (int i = 0; i < array.length; i++) {
+            System.out.println("[" + i + "] " + array[i].toString());
         }
     }
 }
